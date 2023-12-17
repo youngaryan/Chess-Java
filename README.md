@@ -20,6 +20,12 @@ once the system end upon request it can provide the list of all moves that have 
 
 ![image](https://github.com/youngaryan/Chess-Java/assets/121689731/71c2d0e1-3390-46c4-8efe-8014327a9c49)
 
+## Installation
+
+1. Clone the repository
+3. Run Main.java file
+
+
 ## Technology Stack
 
 - Java
