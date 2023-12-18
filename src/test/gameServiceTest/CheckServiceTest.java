@@ -74,25 +74,25 @@ public class CheckServiceTest {
 
     @Test
     public void findMovesByColourWhite() {
-        List<Move> moves = checkService.findPossMovesByColour(true);
+        List<List<Move>> moves = checkService.findPossMovesByColour(true);
 
-        assertTrue(moves.size() == 20);
+        assertTrue(moves.size() == 10);
     }
 
     @Test
     public void findMovesByColourVlack() {
-        List<Move> moves = checkService.findPossMovesByColour(false);
+        List<List<Move>> moves = checkService.findPossMovesByColour(false);
 
-        assertTrue(moves.size() == 20);
+        assertTrue(moves.size() == 10);
     }
 
     @Test
-    public void isKingInCheckByColourTest(){
-        assertFalse(checkService.isKingInCheckByColour(false));
+    public void isKingInCheckByColourTest() {
+        assertTrue(checkService.isKingInCheckByColour(false) == 0);
     }
 
     @Test
-    public void isKingCheckMatebyColourTest(){
+    public void isKingCheckMatebyColourTest() {
         assertFalse(checkService.isKingCheckMatebyColour(false));
     }
 }

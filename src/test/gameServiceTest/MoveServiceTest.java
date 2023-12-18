@@ -41,11 +41,17 @@ public class MoveServiceTest {
         Pawn pawnWhite = boardManager.getPiece(StatField.SECOND, StatField.FIRST);
         Pawn pawnBlack = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Rook rook = boardManager.getPiece(StatField.FIRST, StatField.FIRST);
+        System.out.println(moveService.findAllMoves().size());
 
-        pawnService.movePawn(pawnWhite, StatField.FOURTH, StatField.FIRST);
-        pawnService.movePawn(pawnBlack, StatField.FIFTH, StatField.FIRST);
-        rookService.moveRook(rook, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(pawnWhite, StatField.FOURTH, StatField.FIRST);
+        System.out.println(moveService.findAllMoves().size());
 
+         boardManager.makeMove(pawnBlack, StatField.FIFTH, StatField.FIRST);
+        System.out.println(moveService.findAllMoves().size());
+
+        boardManager.makeMove(rook, StatField.THIRD, StatField.FIRST);
+
+        System.out.println(moveService.findAllMoves().size());
         assertTrue(moveService.findAllMoves().size() == 3);
 
     }

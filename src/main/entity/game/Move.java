@@ -10,6 +10,7 @@ public class Move {
     private int endRow;
     private int endCol;
     private int player;
+    private Piece capturedPiece;
 
     public Move(Piece piece, int startRow, int startCol, int endRow, int endCol, int player) {
         this.piece = piece;
@@ -18,6 +19,7 @@ public class Move {
         this.endRow = endRow;
         this.endCol = endCol;
         this.player = player;
+        this.capturedPiece = null;
     }
 
     public Move() {
@@ -81,8 +83,18 @@ public class Move {
 
     @Override
     public String toString() {
-        return "Move [moveNumber=" + moveNumber + ", piece=" + piece.getClass().getSimpleName() + ", startRow=" + startRow + ", startCol="
-                + startCol + ", endRow=" + endRow + ", endCol=" + endCol + ", player=" + player + "]";
+        return "Move [moveNumber=" + moveNumber + ", piece=" + piece.getClass().getSimpleName() + ", startRow="
+                + (startRow+1) + ", startCol="
+                + (startCol+1) + ", endRow=" + (endRow+1) + ", endCol=" + (endCol+1) + ", player=" + (player == 0 ? "White" : "Black") + ", capturedPiece="
+                + capturedPiece.getClass().getSimpleName() + "]";
+    }
+
+    public Piece getCapturedPiece() {
+        return capturedPiece;
+    }
+
+    public void setCapturedPiece(Piece capturedPiece) {
+        this.capturedPiece = capturedPiece;
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import src.main.BoardManager;
 import src.main.entity.game.Move;
@@ -47,56 +46,102 @@ public class CheckServiceImpl implements CheckService {
     }
 
     @Override
-    public List<Move> findPossMovesByColour(boolean isWhite) {
+    public List<List<Move>> findPossMovesByColour(boolean isWhite) {
         List<Piece> pieces = findPiecesByColour(isWhite);
         List<List<Move>> moves = new ArrayList<>();
 
         for (Piece piece : pieces) {
-            moves.add(boardManager.findPossMovesByPices(piece));
+            if (!boardManager.findPossMovesByPices(piece).isEmpty()) {
+                moves.add(boardManager.findPossMovesByPices(piece));
+
+            }
         }
 
-        return moves.stream()
-                .flatMap(List::stream) // flattening using flatMap
-                .collect(Collectors.toList());
+        return moves;
     }
 
     @Override
-    public boolean isKingInCheckByColour(boolean isWhite) {
+    public int isKingInCheckByColour(boolean isWhite) {
+
+        return findMovesCheckingKing(isWhite).size();
+    }
+
+    @Override
+    public List<Move> findMovesCheckingKing(boolean isWhite) {
+        List<Move> result = new ArrayList<>();
         King king = findKingByColour(isWhite);
         int kingRow = king.getCurrentRow(), kingCol = king.getCurrentCol();
 
-        List<Move> possMovesByOtherColour = findPossMovesByColour(!isWhite);
-
-        for (Move move : possMovesByOtherColour) {
-            if (move.getEndRow() == kingRow && kingCol == move.getEndCol()) {
-                return true;
+        List<List<Move>> possMovesByOtherColour = findPossMovesByColour(!isWhite);
+        for (List<Move> list : possMovesByOtherColour) {
+            for (Move move : list) {
+                if (move.getEndRow() == kingRow && kingCol == move.getEndCol()) {
+                    result.add(move);
+                }
             }
         }
-        return false;
+        return result;
     }
 
     @Override
     public boolean isKingCheckMatebyColour(boolean isWhite) {
         King king = findKingByColour(isWhite);
+        int picesCheckingTheKing = isKingInCheckByColour(isWhite);
 
-        if (!isKingInCheckByColour(isWhite)) {
+        if (picesCheckingTheKing == 0) {
             return false;
         }
         List<Move> possMovesByKing = boardManager.findPossMovesByPices(king);
 
-        List<Move> possMovesByOtherColour = findPossMovesByColour(!isWhite);
+        List<List<Move>> possMovesByOtherColour = findPossMovesByColour(!isWhite);
 
         Set<Move> kingNotAllowed = new HashSet<>();
 
         for (Move move : possMovesByKing) {
-            for (Move move2 : possMovesByOtherColour) {
-                if (move.getEndRow() == move2.getEndRow() && move.getEndCol() == move2.getEndCol()) {
-                    kingNotAllowed.add(move);
+            for (List<Move> list : possMovesByOtherColour) {
+
+                for (Move move2 : list) {
+                    if (move.getEndRow() == move2.getEndRow() && move.getEndCol() == move2.getEndCol()) {
+                        kingNotAllowed.add(move);
+                    }
                 }
             }
         }
 
-        return possMovesByKing.size() == kingNotAllowed.size();
+        if (possMovesByKing.size() == kingNotAllowed.size()) {
+            if (picesCheckingTheKing == 2) {
+                return true;
+            }
+            return !boardManager.canCheckBeBlockedByColour(isWhite);
+
+        }
+        return false;
+    }
+
+    @Override
+    public List<int[]> findCheckPath(Move chekMove) {
+        int startRow = chekMove.getStartRow();
+        int startCol = chekMove.getStartCol();
+        int endRow = chekMove.getEndRow();
+        int endCol = chekMove.getEndCol();
+
+        List<int[]> squaresToBlock = new ArrayList<>();
+
+        // Calculate the direction of the move
+        int rowDirection = Integer.compare(endRow, startRow);
+        int colDirection = Integer.compare(endCol, startCol);
+
+        // Calculate the squares along the path
+        int currentRow = startRow + rowDirection;
+        int currentCol = startCol + colDirection;
+
+        while (currentRow != endRow || currentCol != endCol) {
+            squaresToBlock.add(new int[] { currentRow, currentCol });
+            currentRow += rowDirection;
+            currentCol += colDirection;
+        }
+
+        return squaresToBlock;
     }
 
 }

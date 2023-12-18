@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import src.main.entity.game.Move;
-import src.main.entity.pieces.Piece;
 import src.main.stat.statVar.StatField;
 
 public class MoveServiceImpl implements MoveService {
@@ -57,8 +56,7 @@ public class MoveServiceImpl implements MoveService {
     }
 
     @Override
-    public boolean addMove(Piece piece, int endRow, int endCol, int player) {
-        Move move = new Move(piece, piece.getCurrentRow(), piece.getCurrentCol(), endRow, endCol, player);
+    public boolean addMove(Move move) {
         if (allMoves.add(move)) {
             move.setMoveNumber(allMoves.size());
             return true;

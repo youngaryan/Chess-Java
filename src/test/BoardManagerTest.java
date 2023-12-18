@@ -442,8 +442,8 @@ public class BoardManagerTest {
         queenService.moveQueen(queen, StatField.FIFTH, StatField.SEVENTH);
         pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        boolean check = boardManager.isKingInCheckByColour(false);
-        assertFalse(check);
+        int check = boardManager.isKingInCheckByColour(false);
+        assertTrue(check==0);
 
     }
 
@@ -464,8 +464,8 @@ public class BoardManagerTest {
 
         queenService.moveQueen(queen, StatField.SEVENTH, StatField.FIFTH);
 
-        boolean check = boardManager.isKingInCheckByColour(false);
-        assertTrue(check);
+        int check = boardManager.isKingInCheckByColour(false);
+        assertTrue(check ==1);
 
     }
 

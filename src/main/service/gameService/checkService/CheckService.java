@@ -12,10 +12,14 @@ public interface CheckService {
 
     List<Piece> findPiecesByColour(boolean isWhite);
 
-    List<Move> findPossMovesByColour(boolean isWhite);
+    List<List<Move>> findPossMovesByColour(boolean isWhite);
 
-    boolean isKingInCheckByColour(boolean isWhite);
+    int isKingInCheckByColour(boolean isWhite);
 
     boolean isKingCheckMatebyColour(boolean isWhite);
+
+    List<Move> findMovesCheckingKing(boolean isWhite);
+
+    List<int[]> findCheckPath(Move chekMove);
 
 }

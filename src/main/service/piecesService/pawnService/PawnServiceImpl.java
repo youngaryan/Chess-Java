@@ -59,6 +59,7 @@ public class PawnServiceImpl implements PawnService {
 
         // white pawn
         if (pawn.isWhite()) {
+            boerd = boardManager.getChessBoard();
             // check for pawn which wants to move 2
             if (newRow - curentRow == 2) {
                 // if it's not on the first row it can't move 2 steps
@@ -88,7 +89,6 @@ public class PawnServiceImpl implements PawnService {
                 }
                 // check for capturing
                 if (Math.abs(newCol - currentCol) == 1 && boerd[newRow][newCol] != null) {
-
                     return true;
                 }
                 if (curentRow == StatField.FIFTH) {
@@ -107,6 +107,8 @@ public class PawnServiceImpl implements PawnService {
         }
         // black pawn
         else {
+            boerd = boardManager.getChessBoard();
+
             // check for pawn which wants to move 2
             if (curentRow - newRow == 2) {
                 // if it's not on the first row it can't move 2 steps

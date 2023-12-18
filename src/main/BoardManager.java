@@ -146,17 +146,33 @@ public class BoardManager {
         public <T extends Piece> Piece[][] movePieceilligal(T piece, int newRow, int newCol) {
                 int currentRow = piece.getCurrentRow();
                 int currentCol = piece.getCurrentCol();
-
                 int player;
                 if (piece.isWhite()) {
                         player = StatField.PLAYER_WHITE;
                 } else {
                         player = StatField.PLAYER_BLACK;
                 }
+
+                // enpasunt
+                if (piece instanceof Pawn) {
+                        Pawn pawn = (Pawn) piece;
+                        if (pawn.isAbleToEnPassant()) {
+                                pawn.setAbleToEnPassant(false);
+                                chessBoard[currentRow][newCol] = null;
+                        }
+                }
+
+                Move move = new Move(piece, piece.getCurrentRow(), piece.getCurrentCol(), newRow, newCol, player);
+
+                move.setCapturedPiece(chessBoard[newRow][newCol]);
+
                 chessBoard[currentRow][currentCol] = null; // Remove the piece from the current position
                 chessBoard[newRow][newCol] = piece;
 
-                moveService.addMove(piece, newRow, newCol, player);
+                moveService.addMove(move);
+
+                piece.setCurrentRow(newRow);
+                piece.setCurrentCol(newCol);
 
                 return chessBoard;
         }
@@ -184,11 +200,14 @@ public class BoardManager {
                         }
                 }
 
+                Move move = new Move(piece, piece.getCurrentRow(), piece.getCurrentCol(), newRow, newCol, player);
+
+                move.setCapturedPiece(chessBoard[newRow][newCol]);
+
                 chessBoard[currentRow][currentCol] = null; // Remove the piece from the current position
                 chessBoard[newRow][newCol] = piece;
 
-                moveService.addMove(piece, newRow, newCol, player);
-
+                moveService.addMove(move);
                 piece.setCurrentRow(newRow);
                 piece.setCurrentCol(newCol);
 
@@ -336,7 +355,7 @@ public class BoardManager {
                 return moves;
         }
 
-        public boolean isKingInCheckByColour(boolean isWhite) {
+        public int isKingInCheckByColour(boolean isWhite) {
                 return checkService.isKingInCheckByColour(isWhite);
         }
 
@@ -347,7 +366,7 @@ public class BoardManager {
         public <T extends Piece> boolean isLegalMove(T piece, int newRow, int newCol) {
                 movePieceilligal(piece, newRow, newCol);
 
-                if (isKingInCheckByColour(piece.isWhite())) {
+                if (isKingInCheckByColour(piece.isWhite()) > 0) {
                         undoMove();
                         return false;
                 }
@@ -357,7 +376,8 @@ public class BoardManager {
 
         public Piece[][] undoMove() {
 
-                Move lastMove = findTheLastMove();
+                Move lastMove =findTheLastMove();
+
                 int newRow = lastMove.getEndRow();
                 int newCol = lastMove.getEndCol();
                 int currentRow = lastMove.getStartRow();
@@ -365,28 +385,37 @@ public class BoardManager {
                 Piece piece = lastMove.getPiece();
 
                 chessBoard[currentRow][currentCol] = piece;
-                chessBoard[newRow][newCol] = null;
 
+                chessBoard[newRow][newCol] = lastMove.getCapturedPiece();
+
+                piece.setCurrentRow(currentRow);
+                piece.setCurrentCol(currentCol);
+                
                 moveService.deleteLastMove();
 
                 return chessBoard;
         }
 
         public boolean makeMove(Piece piece, int newRow, int newCol) {
-                if (piece instanceof Pawn) {
-                        return pawnService.movePawn((Pawn) piece, newRow, newCol);
-                } else if (piece instanceof Rook) {
-                        return rookService.moveRook((Rook) piece, newRow, newCol);
-                } else if (piece instanceof Knight) {
-                        return knightService.moveKnight((Knight) piece, newRow, newCol);
-                } else if (piece instanceof Bishop) {
-                        return bishopService.moveBishop((Bishop) piece, newRow, newCol);
-                } else if (piece instanceof Queen) {
-                        return queenService.moveQueen((Queen) piece, newRow, newCol);
-                } else if (piece instanceof King) {
-                        return kingService.moveKing((King) piece, newRow, newCol);
+                if (piece instanceof Pawn && pawnService.isValidMove((Pawn) piece, newRow, newCol)) {
+                        movePiece((Pawn) piece, newRow, newCol);
+                        return true;
+                } else if (piece instanceof Rook && rookService.isValidMove((Rook) piece, newRow, newCol)) {
+                        movePiece((Rook) piece, newRow, newCol);
+                        return true;
+                } else if (piece instanceof Knight && knightService.isValidMove((Knight) piece, newRow, newCol)) {
+                       movePiece((Knight) piece, newRow, newCol);
+                        return true;
+                } else if (piece instanceof Bishop && bishopService.isValidMove((Bishop) piece, newRow, newCol)) {
+                        movePiece((Bishop) piece, newRow, newCol);
+                        return true;
+                } else if (piece instanceof Queen && queenService.isValidMove((Queen) piece, newRow, newCol)) {
+                        movePiece((Queen) piece, newRow, newCol);
+                        return  true;
+                } else if (piece instanceof King && kingService.isValidMove((King) piece, newRow, newCol)) {
+                        movePiece((King) piece, newRow, newCol);
+                        return true;
                 } else {
-                        // Handle the case when the piece is not recognized
                         return false;
                 }
         }
@@ -394,4 +423,30 @@ public class BoardManager {
         public List<Move> findAllMoves() {
                 return moveService.findAllMoves();
         }
+
+        public boolean canCheckBeBlockedByColour(boolean isWhite) {
+                Move checkingMove = checkService.findMovesCheckingKing(isWhite).get(0);
+
+                List<int[]> path = checkService.findCheckPath(checkingMove);
+
+                List<List<Move>> allpossMoves = checkService.findPossMovesByColour(isWhite);
+
+                for (int[] square : path) {
+                        int row = square[0];
+                        int col = square[1];
+
+                        for (List<Move> pieceMoves : allpossMoves) {
+                                for (Move move : pieceMoves) {
+                                        if (move.getEndRow() == row && move.getEndCol() == col) {
+                                                if (isLegalMove(move.getPiece(), row, col)) {
+                                                        return true;
+
+                                                }
+                                        }
+                                }
+                        }
+                }
+                return false;
+        }
+
 }

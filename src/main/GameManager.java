@@ -84,13 +84,14 @@ public class GameManager {
                 }
             } else {
 
-                if (!boardManager.makeMove(piece, endRow, endCol)) {
+                if (!boardManager.isLegalMove(piece, endRow, endCol)) {
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                     System.out.println("wrong or illigal move try again, carefull of potential check or pin!");
                     continue;
                 }
+                boardManager.makeMove(piece, endRow, endCol);
             }
             whiteTurn = !whiteTurn;
 
@@ -156,7 +157,7 @@ public class GameManager {
             System.out.println();
         }
         System.out.println(" +----------------");
-        System.out.println("  1 2 3 4 5 6 7 8");
+        System.out.println("   1 2 3 4 5 6 7 8");
     }
 
     private boolean isGameOver() {
