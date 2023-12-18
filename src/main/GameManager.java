@@ -134,6 +134,8 @@ public class GameManager {
             System.out.println("Black Won!");
         } else if (boardManager.isKingCheckMatebyColour(false)) {
             System.out.println("White won!");
+        }else{
+            System.out.println("Draw");
         }
     }
 
