@@ -4,7 +4,7 @@ all rules are included (en passant, pin, casteling and etc.)
 
 all features have been tested and all tests are provided
 
-#Usage
+## Usage
 the game will load a chess board inside the termial and it promts you to provide the row and the column of the piece you would like to move and the row and the column 
 which you want to move the piece to.
 ![image](https://github.com/youngaryan/Chess-Java/assets/121689731/b7be19e1-aa4b-4b76-adc5-fc0e08b4d8cd)
