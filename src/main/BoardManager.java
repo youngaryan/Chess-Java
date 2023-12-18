@@ -376,7 +376,7 @@ public class BoardManager {
 
         public Piece[][] undoMove() {
 
-                Move lastMove =findTheLastMove();
+                Move lastMove = findTheLastMove();
 
                 int newRow = lastMove.getEndRow();
                 int newCol = lastMove.getEndCol();
@@ -390,7 +390,7 @@ public class BoardManager {
 
                 piece.setCurrentRow(currentRow);
                 piece.setCurrentCol(currentCol);
-                
+
                 moveService.deleteLastMove();
 
                 return chessBoard;
@@ -399,21 +399,39 @@ public class BoardManager {
         public boolean makeMove(Piece piece, int newRow, int newCol) {
                 if (piece instanceof Pawn && pawnService.isValidMove((Pawn) piece, newRow, newCol)) {
                         movePiece((Pawn) piece, newRow, newCol);
+                        piece.setHasMoved(true);
                         return true;
                 } else if (piece instanceof Rook && rookService.isValidMove((Rook) piece, newRow, newCol)) {
                         movePiece((Rook) piece, newRow, newCol);
+                        piece.setHasMoved(true);
                         return true;
                 } else if (piece instanceof Knight && knightService.isValidMove((Knight) piece, newRow, newCol)) {
-                       movePiece((Knight) piece, newRow, newCol);
+                        movePiece((Knight) piece, newRow, newCol);
+                        piece.setHasMoved(true);
                         return true;
                 } else if (piece instanceof Bishop && bishopService.isValidMove((Bishop) piece, newRow, newCol)) {
                         movePiece((Bishop) piece, newRow, newCol);
+                        piece.setHasMoved(true);
                         return true;
                 } else if (piece instanceof Queen && queenService.isValidMove((Queen) piece, newRow, newCol)) {
                         movePiece((Queen) piece, newRow, newCol);
-                        return  true;
+                        piece.setHasMoved(true);
+                        return true;
                 } else if (piece instanceof King && kingService.isValidMove((King) piece, newRow, newCol)) {
+                        if (newCol > piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2) {
+                                Rook rook = getPiece(piece.getCurrentRow(), newCol + 1);
+
+                               
+                                makeMove(rook, piece.getCurrentRow(), newCol - 1);
+                        } else if (newCol < piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2) {
+                                Rook rook = getPiece(newRow, newCol - 2);
+
+                                
+                                makeMove(rook, newRow, newCol + 1);
+                        }
+
                         movePiece((King) piece, newRow, newCol);
+                        piece.setHasMoved(true);
                         return true;
                 } else {
                         return false;

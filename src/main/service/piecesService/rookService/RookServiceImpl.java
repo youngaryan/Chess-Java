@@ -19,17 +19,6 @@ public class RookServiceImpl implements RookService {
     }
 
     @Override
-    public boolean moveRook(Piece rook, int newRow, int newCol) {
-        System.out.println(isValidMove(rook, newRow, newCol));
-        if (!isValidMove(rook, newRow, newCol)) {
-            return false;
-        }
-        boardManager.movePiece(rook, newRow, newCol);
-        rook.setHasMoved(true);
-        return true;
-    }
-
-    @Override
     public boolean isValidMove(Piece rook, int newRow, int newCol) {
         // the grid checker
         if (!InputChecker.newGriddimentionChecker(newRow, newCol)) {

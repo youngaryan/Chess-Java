@@ -4,8 +4,6 @@ import src.main.BoardManager;
 import src.main.entity.pieces.King;
 import src.main.entity.pieces.Piece;
 import src.main.entity.pieces.Rook;
-import src.main.service.piecesService.rookService.RookService;
-import src.main.service.piecesService.rookService.RookServiceImpl;
 import src.main.stat.statMethod.InputChecker;
 
 public class KingServiceImpl implements KingService {
@@ -19,28 +17,6 @@ public class KingServiceImpl implements KingService {
     public King createKing(boolean isWhite, int initialRow, int initialCol) {
         King newKing = new King(isWhite, initialRow, initialCol, false);
         return newKing;
-    }
-
-    @Override
-    public boolean moveKing(King king, int newRow, int newCol) {
-        if (!isValidMove(king, newRow, newCol)) {
-            return false;
-        }
-
-        if (newCol > king.getCurrentCol() && Math.abs(king.getCurrentCol() - newCol) == 2) {
-            Rook rook = boardManager.getPiece(king.getCurrentRow(), newCol + 1);
-
-            RookService rookService = new RookServiceImpl(boardManager);
-            rookService.moveRook(rook, king.getCurrentRow(), newCol - 1);
-        } else if (newCol < king.getCurrentCol() && Math.abs(king.getCurrentCol() - newCol) == 2) {
-            Rook rook = boardManager.getPiece(newRow, newCol - 2);
-
-            RookService rookService = new RookServiceImpl(boardManager);
-            rookService.moveRook(rook, newRow, newCol + 1);
-        }
-        boardManager.movePiece(king, newRow, newCol);
-        king.setHasMoved(true);
-        return true;
     }
 
     @Override

@@ -21,16 +21,6 @@ public class PawnServiceImpl implements PawnService {
         return newPawn;
     }
 
-    @Override
-    public boolean movePawn(Pawn pawn, int newRow, int newCol) {
-        if (!isValidMove(pawn, newRow, newCol)) {
-            return false;
-        }
-
-        boardManager.movePiece(pawn, newRow, newCol);
-        pawn.setHasMoved(true);
-        return true;
-    }
 
     @Override
     public Piece promotePawn(Pawn pawn, int newRow, int newCol, Class<? extends Piece> newPiece) {

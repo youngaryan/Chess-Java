@@ -20,15 +20,6 @@ public class BishopServiceImpl implements BishopService {
     }
 
     @Override
-    public boolean moveBishop(Piece bishop, int newRow, int newCol) {
-        if (!isValidMove(bishop, newRow, newCol)) {
-            return false;
-        }
-        boardManager.movePiece(bishop, newRow, newCol);
-        return true;
-    }
-
-    @Override
     public boolean isValidMove(Piece bishop, int newRow, int newCol) {
         Piece[][] boerd = boardManager.getChessBoard();
         if (!InputChecker.newGriddimentionChecker(newRow, newCol)

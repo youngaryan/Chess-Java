@@ -19,15 +19,6 @@ public class KnightServiceImpl implements KnightService {
     }
 
     @Override
-    public boolean moveKnight(Knight knight, int newRow, int newCol) {
-        if (!isValidMove(knight, newRow, newCol)) {
-            return false;
-        }
-        boardManager.movePiece(knight, newRow, newCol);
-        return true;
-    }
-
-    @Override
     public boolean isValidMove(Knight knight, int newRow, int newCol) {
         Piece[][] boerd = boardManager.getChessBoard();
         if (!InputChecker.newGriddimentionChecker(newRow, newCol)

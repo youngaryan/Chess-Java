@@ -10,26 +10,14 @@ import src.main.BoardManager;
 import src.main.entity.pieces.Bishop;
 import src.main.entity.pieces.Knight;
 import src.main.entity.pieces.Pawn;
-import src.main.service.piecesService.KnightService.KnightService;
-import src.main.service.piecesService.KnightService.KnightServiceImpl;
-import src.main.service.piecesService.bishopService.BishopService;
-import src.main.service.piecesService.bishopService.BishopServiceImpl;
-import src.main.service.piecesService.pawnService.PawnService;
-import src.main.service.piecesService.pawnService.PawnServiceImpl;
 import src.main.stat.statVar.StatField;
 
 public class BishopServiceTest {
-    private BishopService bishopService;
     private BoardManager boardManager;
-    private PawnService pawnService;
-    private KnightService knightService;
 
     @Before
     public void setUp() {
         boardManager = new BoardManager();
-        bishopService = new BishopServiceImpl(boardManager);
-        pawnService = new PawnServiceImpl(boardManager);
-        knightService = new KnightServiceImpl(boardManager);
     }
 
     @Test
@@ -37,8 +25,8 @@ public class BishopServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        boolean check = bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boolean check = boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
         assertTrue(check);
     }
 
@@ -47,9 +35,9 @@ public class BishopServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        boolean check = bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        boolean check1 = bishopService.moveBishop(bishop, StatField.FOURTH, StatField.SIXTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boolean check = boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+        boolean check1 = boardManager.makeMove(bishop, StatField.FOURTH, StatField.SIXTH);
         assertTrue(check && check1);
     }
 
@@ -58,9 +46,9 @@ public class BishopServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        boolean check = bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        boolean check2 = bishopService.moveBishop(bishop, StatField.FIRST, StatField.THIRD);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boolean check = boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+        boolean check2 = boardManager.makeMove(bishop, StatField.FIRST, StatField.THIRD);
         assertTrue(check && check2);
     }
 
@@ -69,22 +57,22 @@ public class BishopServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.SECOND);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.SECOND);
-        boolean check = bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.SECOND);
+        boolean check = boardManager.makeMove(bishop, StatField.THIRD, StatField.FIRST);
         assertTrue(check);
     }
 
     @Test
     public void invalidMove() {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
-        boolean check = bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIRST);
+        boolean check = boardManager.makeMove(bishop, StatField.THIRD, StatField.FIRST);
         assertFalse(check);
     }
 
     @Test
     public void invalidMove1() {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
-        boolean check = bishopService.moveBishop(bishop, StatField.FIRST, StatField.THIRD);
+        boolean check = boardManager.makeMove(bishop, StatField.FIRST, StatField.THIRD);
         assertFalse(check);
     }
 
@@ -93,8 +81,8 @@ public class BishopServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.SECOND);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.SECOND);
-        boolean check = bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.SECOND);
+        boolean check = boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
         assertFalse(check);
     }
     
@@ -106,13 +94,13 @@ public class BishopServiceTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FOURTH);
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FOURTH);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FOURTH);
 
-        knightService.moveKnight(knight, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FOURTH);
 
-        boolean check = bishopService.moveBishop(bishop, StatField.FIRST, StatField.THIRD );
+        boolean check = boardManager.makeMove(bishop, StatField.FIRST, StatField.THIRD );
 
         assertFalse(check);
     }

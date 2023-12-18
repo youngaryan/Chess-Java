@@ -18,37 +18,17 @@ import src.main.entity.pieces.Pawn;
 import src.main.entity.pieces.Piece;
 import src.main.entity.pieces.Queen;
 import src.main.entity.pieces.Rook;
-import src.main.service.piecesService.KnightService.KnightService;
-import src.main.service.piecesService.KnightService.KnightServiceImpl;
-import src.main.service.piecesService.bishopService.BishopService;
-import src.main.service.piecesService.bishopService.BishopServiceImpl;
-import src.main.service.piecesService.pawnService.PawnService;
-import src.main.service.piecesService.pawnService.PawnServiceImpl;
-import src.main.service.piecesService.queenService.QueenService;
-import src.main.service.piecesService.queenService.QueenServiceImpl;
-import src.main.service.piecesService.rookService.RookService;
-import src.main.service.piecesService.rookService.RookServiceImpl;
+
 import src.main.stat.statVar.StatField;
 
 public class BoardManagerTest {
     private BoardManager boardManager;
     private Piece[][] board;
-    private PawnService pawnService;
-    private BishopService bishopService;
-    private KnightService knightService;
-    private RookService rookService;
-    private QueenService queenService;
 
     @Before
     public void setUp() {
         boardManager = new BoardManager();
         board = boardManager.getChessBoard();
-        
-        pawnService = new PawnServiceImpl(boardManager);
-        bishopService = new BishopServiceImpl(boardManager);
-        knightService = new KnightServiceImpl(boardManager);
-        rookService = new RookServiceImpl(boardManager);
-        queenService = new QueenServiceImpl(bishopService, rookService);
     }
 
     @Test
@@ -223,8 +203,8 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FIRST);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(knight);
 
@@ -237,8 +217,8 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Rook rook = boardManager.getPiece(StatField.FIRST, StatField.FIRST);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FIRST);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(rook);
 
@@ -252,11 +232,11 @@ public class BoardManagerTest {
         Pawn pawn2 = boardManager.getPiece(StatField.SECOND, StatField.THIRD);
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FIRST);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        pawnService.movePawn(pawn2, StatField.THIRD, StatField.THIRD);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(pawn2, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(knight);
 
@@ -271,17 +251,17 @@ public class BoardManagerTest {
         Pawn pawn3 = boardManager.getPiece(StatField.SECOND, StatField.FOURTH);
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FIRST);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        pawnService.movePawn(pawn2, StatField.THIRD, StatField.THIRD);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(pawn2, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        pawnService.movePawn(pawn2, StatField.THIRD, StatField.THIRD);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(pawn2, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        pawnService.movePawn(pawn3, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(pawn3, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(knight);
 
@@ -294,8 +274,8 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(bishop);
 
@@ -309,11 +289,11 @@ public class BoardManagerTest {
         Pawn pawn2 = boardManager.getPiece(StatField.SECOND, StatField.SECOND);
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.THIRD);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        pawnService.movePawn(pawn2, StatField.THIRD, StatField.SECOND);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(pawn2, StatField.THIRD, StatField.SECOND);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(bishop);
 
@@ -326,8 +306,8 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(queen);
 
@@ -340,11 +320,11 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
         List<Move> moves = boardManager.findPossMovesByPices(queen);
 
@@ -362,20 +342,20 @@ public class BoardManagerTest {
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.FIFTH, StatField.SEVENTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.FIFTH, StatField.SEVENTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        pawnService.movePawn(pawn1, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+        boardManager.makeMove(pawn1, StatField.THIRD, StatField.FIRST);
 
-        knightService.moveKnight(knight, StatField.THIRD, StatField.THIRD);
-        pawnService.movePawn(pawn2, StatField.SIXTH, StatField.SECOND);
+       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(pawn2, StatField.SIXTH, StatField.SECOND);
 
         List<Move> moves = boardManager.findPossMovesByPices(king);
 
@@ -398,29 +378,29 @@ public class BoardManagerTest {
 
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.FIFTH, StatField.SEVENTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.FIFTH, StatField.SEVENTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        pawnService.movePawn(pawn1, StatField.THIRD, StatField.FIRST);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+        boardManager.makeMove(pawn1, StatField.THIRD, StatField.FIRST);
 
-        knightService.moveKnight(knight, StatField.THIRD, StatField.THIRD);
-        pawnService.movePawn(pawn2, StatField.SIXTH, StatField.SECOND);
+       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(pawn2, StatField.SIXTH, StatField.SECOND);
 
-        pawnService.movePawn(pawn3, StatField.THIRD, StatField.SEVENTH);
-        pawnService.movePawn(pawn2, StatField.FIFTH, StatField.SECOND);
+        boardManager.makeMove(pawn3, StatField.THIRD, StatField.SEVENTH);
+        boardManager.makeMove(pawn2, StatField.FIFTH, StatField.SECOND);
 
-        bishopService.moveBishop(bishop1, StatField.SECOND, StatField.SEVENTH);
-        pawnService.movePawn(pawn2, StatField.FOURTH, StatField.SECOND);
+        boardManager.makeMove(bishop1, StatField.SECOND, StatField.SEVENTH);
+        boardManager.makeMove(pawn2, StatField.FOURTH, StatField.SECOND);
 
-        knightService.moveKnight(knight2, StatField.THIRD, StatField.SIXTH);
-        pawnService.movePawn(pawn2, StatField.THIRD, StatField.SECOND);
+       boardManager.makeMove(knight2, StatField.THIRD, StatField.SIXTH);
+        boardManager.makeMove(pawn2, StatField.THIRD, StatField.SECOND);
 
         List<Move> moves = boardManager.findPossMovesByPices(king);
 
@@ -433,14 +413,14 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.FIFTH, StatField.SEVENTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.FIFTH, StatField.SEVENTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
         int check = boardManager.isKingInCheckByColour(false);
         assertTrue(check==0);
@@ -453,16 +433,16 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.FIFTH, StatField.SEVENTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.FIFTH, StatField.SEVENTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SEVENTH, StatField.FIFTH);
+        boardManager.makeMove(queen, StatField.SEVENTH, StatField.FIFTH);
 
         int check = boardManager.isKingInCheckByColour(false);
         assertTrue(check ==1);
@@ -473,8 +453,8 @@ public class BoardManagerTest {
     public void isKingCheckMatedByClolour() {
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.SIXTH);
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIFTH);
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.SIXTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.SIXTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIFTH);
 
         boolean check = boardManager.isKingCheckMatebyColour(true);
 
@@ -489,11 +469,11 @@ public class BoardManagerTest {
 
         Queen queen = boardManager.getPiece(StatField.EIGHTS, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.SIXTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.SIXTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIFTH);
 
-        pawnService.movePawn(pawn3, StatField.FOURTH, StatField.SEVENTH);
-        queenService.moveQueen(queen, StatField.FOURTH, StatField.EIGHTS);
+        boardManager.makeMove(pawn3, StatField.FOURTH, StatField.SEVENTH);
+        boardManager.makeMove(queen, StatField.FOURTH, StatField.EIGHTS);
 
         boolean check = boardManager.isKingCheckMatebyColour(true);
 
@@ -506,16 +486,16 @@ public class BoardManagerTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.SIXTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.SIXTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.FIFTH, StatField.SEVENTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(queen, StatField.FIFTH, StatField.SEVENTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        queenService.moveQueen(queen, StatField.SEVENTH, StatField.FIFTH);
+        boardManager.makeMove(queen, StatField.SEVENTH, StatField.FIFTH);
 
         boolean check = boardManager.isKingCheckMatebyColour(false);
         assertFalse(check);
@@ -530,11 +510,11 @@ public class BoardManagerTest {
 
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.SIXTH);
 
-        pawnService.movePawn(pawn, StatField.THIRD, StatField.FIFTH);
-        pawnService.movePawn(pawnBlack, StatField.SIXTH, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.THIRD, StatField.FIFTH);
+        boardManager.makeMove(pawnBlack, StatField.SIXTH, StatField.FIFTH);
 
-        bishopService.moveBishop(bishop, StatField.FIFTH, StatField.SECOND);
-        pawnService.movePawn(pawnBlackPined, StatField.SIXTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.FIFTH, StatField.SECOND);
+        boardManager.makeMove(pawnBlackPined, StatField.SIXTH, StatField.FOURTH);
 
         board = boardManager.getChessBoard();
 

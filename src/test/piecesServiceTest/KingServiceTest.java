@@ -14,38 +14,14 @@ import src.main.entity.pieces.Pawn;
 import src.main.entity.pieces.Piece;
 import src.main.entity.pieces.Queen;
 import src.main.entity.pieces.Rook;
-import src.main.service.piecesService.KnightService.KnightService;
-import src.main.service.piecesService.KnightService.KnightServiceImpl;
-import src.main.service.piecesService.bishopService.BishopService;
-import src.main.service.piecesService.bishopService.BishopServiceImpl;
-import src.main.service.piecesService.kingService.KingService;
-import src.main.service.piecesService.kingService.KingServiceImpl;
-import src.main.service.piecesService.pawnService.PawnService;
-import src.main.service.piecesService.pawnService.PawnServiceImpl;
-import src.main.service.piecesService.queenService.QueenService;
-import src.main.service.piecesService.queenService.QueenServiceImpl;
-import src.main.service.piecesService.rookService.RookService;
-import src.main.service.piecesService.rookService.RookServiceImpl;
 import src.main.stat.statVar.StatField;
 
 public class KingServiceTest {
-    private KingService kingService;
     private BoardManager boardManager;
-    private PawnService pawnService;
-    private BishopService bishopService;
-    private KnightService knightService;
-    private RookService rookService;
-    private QueenService queenService;
 
     @Before
     public void setUp() {
         boardManager = new BoardManager();
-        kingService = new KingServiceImpl(boardManager);
-        pawnService = new PawnServiceImpl(boardManager);
-        bishopService = new BishopServiceImpl(boardManager);
-        knightService = new KnightServiceImpl(boardManager);
-        rookService = new RookServiceImpl(boardManager);
-        queenService = new QueenServiceImpl(bishopService, rookService);
     }
 
     @Test
@@ -53,8 +29,8 @@ public class KingServiceTest {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FIFTH);
         // move the pawn to open up space for the king
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.SECOND, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boolean check = boardManager.makeMove(king, StatField.SECOND, StatField.FIFTH);
         assertTrue(check);
     }
 
@@ -63,9 +39,9 @@ public class KingServiceTest {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FIFTH);
         // move the pawn to open up space for the king
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.SECOND, StatField.FIFTH);
-        boolean check1 = kingService.moveKing(king, StatField.THIRD, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boolean check = boardManager.makeMove(king, StatField.SECOND, StatField.FIFTH);
+        boolean check1 = boardManager.makeMove(king, StatField.THIRD, StatField.FIFTH);
         assertTrue(check && check1);
     }
 
@@ -74,9 +50,9 @@ public class KingServiceTest {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FIFTH);
         // move the pawn to open up space for the king
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.SECOND, StatField.FIFTH);
-        boolean check1 = kingService.moveKing(king, StatField.THIRD, StatField.FOURTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boolean check = boardManager.makeMove(king, StatField.SECOND, StatField.FIFTH);
+        boolean check1 = boardManager.makeMove(king, StatField.THIRD, StatField.FOURTH);
         assertTrue(check && check1);
     }
 
@@ -85,9 +61,9 @@ public class KingServiceTest {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
         Pawn pawn = boardManager.getPiece(StatField.SECOND, StatField.FIFTH);
         // move the pawn to open up space for the king
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.SECOND, StatField.FIFTH);
-        boolean check1 = kingService.moveKing(king, StatField.FIRST, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boolean check = boardManager.makeMove(king, StatField.SECOND, StatField.FIFTH);
+        boolean check1 = boardManager.makeMove(king, StatField.FIRST, StatField.FIFTH);
         assertTrue(check && check1);
     }
 
@@ -99,11 +75,11 @@ public class KingServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.SIXTH);
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SEVENTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SECOND, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SECOND, StatField.FIFTH);
 
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.SEVENTH);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.SEVENTH);
         assertTrue(check);
 
     }
@@ -115,11 +91,11 @@ public class KingServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.FIRST, StatField.SIXTH);
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SEVENTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SECOND, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SECOND, StatField.FIFTH);
 
-        kingService.moveKing(king, StatField.FIRST, StatField.SEVENTH);
+        boardManager.makeMove(king, StatField.FIRST, StatField.SEVENTH);
 
         Piece[][] board = boardManager.getChessBoard();
 
@@ -136,11 +112,11 @@ public class KingServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.EIGHTS, StatField.SIXTH);
         Knight knight = boardManager.getPiece(StatField.EIGHTS, StatField.SEVENTH);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SEVENTH, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SEVENTH, StatField.FIFTH);
 
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.SEVENTH);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.SEVENTH);
         assertTrue(check);
 
     }
@@ -152,11 +128,11 @@ public class KingServiceTest {
         Bishop bishop = boardManager.getPiece(StatField.EIGHTS, StatField.SIXTH);
         Knight knight = boardManager.getPiece(StatField.EIGHTS, StatField.SEVENTH);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SEVENTH, StatField.FIFTH);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SEVENTH, StatField.FIFTH);
 
-        kingService.moveKing(king, StatField.EIGHTS, StatField.SEVENTH);
+        boardManager.makeMove(king, StatField.EIGHTS, StatField.SEVENTH);
         Piece[][] board = boardManager.getChessBoard();
 
         assertTrue(board[StatField.EIGHTS][StatField.SIXTH] instanceof Rook
@@ -172,11 +148,11 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.THIRD, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.THIRD);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.THIRD);
 
         assertTrue(check);
 
@@ -190,12 +166,12 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SECOND);
         Queen queen = boardManager.getPiece(StatField.FIRST, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.THIRD, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
 
-        kingService.moveKing(king, StatField.FIRST, StatField.THIRD);
+        boardManager.makeMove(king, StatField.FIRST, StatField.THIRD);
         Piece[][] board = boardManager.getChessBoard();
 
         assertTrue(board[StatField.FIRST][StatField.FOURTH] instanceof Rook
@@ -211,12 +187,12 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.EIGHTS, StatField.SECOND);
         Queen queen = boardManager.getPiece(StatField.EIGHTS, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.SIXTH, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SEVENTH, StatField.FOURTH);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.SIXTH, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SEVENTH, StatField.FOURTH);
 
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.THIRD);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.THIRD);
         assertTrue(check);
 
     }
@@ -229,12 +205,12 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.EIGHTS, StatField.SECOND);
         Queen queen = boardManager.getPiece(StatField.EIGHTS, StatField.FOURTH);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.SIXTH, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SEVENTH, StatField.FOURTH);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.SIXTH, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SEVENTH, StatField.FOURTH);
 
-        kingService.moveKing(king, StatField.EIGHTS, StatField.THIRD);
+        boardManager.makeMove(king, StatField.EIGHTS, StatField.THIRD);
 
         Piece[][] board = boardManager.getChessBoard();
 
@@ -246,21 +222,21 @@ public class KingServiceTest {
     @Test
     public void invalidMove() {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.SEVENTH);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.SEVENTH);
         assertFalse(check);
     }
 
     @Test
     public void invalidMove1() {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.SECOND);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.SECOND);
         assertFalse(check);
     }
 
     @Test
     public void invalidMove2() {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.SECOND, StatField.FIFTH);
+        boolean check = boardManager.makeMove(king, StatField.SECOND, StatField.FIFTH);
         assertFalse(check);
     }
 
@@ -268,7 +244,7 @@ public class KingServiceTest {
     @Test
     public void invalidMove3() {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.SEVENTH);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.SEVENTH);
         assertFalse(check);
     }
 
@@ -281,13 +257,13 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SEVENTH);
         Rook rook = boardManager.getPiece(StatField.FIRST, StatField.EIGHTS);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SECOND, StatField.FIFTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.EIGHTS);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SECOND, StatField.FIFTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.EIGHTS);
 
-        rookService.moveRook(rook, StatField.SECOND, StatField.EIGHTS);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.SEVENTH);
+        boardManager.makeMove(rook, StatField.SECOND, StatField.EIGHTS);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.SEVENTH);
         assertFalse(check);
 
     }
@@ -301,15 +277,15 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.FIRST, StatField.SEVENTH);
         Rook rook = boardManager.getPiece(StatField.FIRST, StatField.EIGHTS);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SECOND, StatField.FIFTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.EIGHTS);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SECOND, StatField.FIFTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.EIGHTS);
 
-        rookService.moveRook(rook, StatField.SECOND, StatField.EIGHTS);
-        rookService.moveRook(rook, StatField.FIRST, StatField.EIGHTS);
+        boardManager.makeMove(rook, StatField.SECOND, StatField.EIGHTS);
+        boardManager.makeMove(rook, StatField.FIRST, StatField.EIGHTS);
 
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.SEVENTH);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.SEVENTH);
         assertFalse(check);
 
     }
@@ -324,13 +300,13 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.EIGHTS, StatField.SEVENTH);
         Rook rook = boardManager.getPiece(StatField.EIGHTS, StatField.EIGHTS);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SEVENTH, StatField.FIFTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.EIGHTS);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SEVENTH, StatField.FIFTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.EIGHTS);
 
-        rookService.moveRook(rook, StatField.SEVENTH, StatField.EIGHTS);
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.SEVENTH);
+        boardManager.makeMove(rook, StatField.SEVENTH, StatField.EIGHTS);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.SEVENTH);
         assertFalse(check);
 
     }
@@ -344,15 +320,15 @@ public class KingServiceTest {
         Knight knight = boardManager.getPiece(StatField.EIGHTS, StatField.SEVENTH);
         Rook rook = boardManager.getPiece(StatField.EIGHTS, StatField.EIGHTS);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FIFTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FOURTH);
-        knightService.moveKnight(knight, StatField.SEVENTH, StatField.FIFTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.EIGHTS);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FIFTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FOURTH);
+       boardManager.makeMove(knight, StatField.SEVENTH, StatField.FIFTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.EIGHTS);
 
-        rookService.moveRook(rook, StatField.SEVENTH, StatField.EIGHTS);
-        rookService.moveRook(rook, StatField.EIGHTS, StatField.EIGHTS);
+        boardManager.makeMove(rook, StatField.SEVENTH, StatField.EIGHTS);
+        boardManager.makeMove(rook, StatField.EIGHTS, StatField.EIGHTS);
 
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.SEVENTH);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.SEVENTH);
         assertFalse(check);
 
     }
@@ -361,7 +337,7 @@ public class KingServiceTest {
     @Test
     public void invalidMove8() {
         King king = boardManager.getPiece(StatField.FIRST, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.THIRD);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.THIRD);
         assertFalse(check);
     }
 
@@ -375,14 +351,14 @@ public class KingServiceTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SECOND, StatField.FIRST);
         Rook rook = boardManager.getPiece(StatField.FIRST, StatField.FIRST);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.THIRD, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SECOND, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SECOND, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        rookService.moveRook(rook, StatField.SECOND, StatField.FIRST);
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.THIRD);
+        boardManager.makeMove(rook, StatField.SECOND, StatField.FIRST);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.THIRD);
         assertFalse(check);
     }
 
@@ -396,16 +372,16 @@ public class KingServiceTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SECOND, StatField.FIRST);
         Rook rook = boardManager.getPiece(StatField.FIRST, StatField.FIRST);
 
-        pawnService.movePawn(pawn, StatField.FOURTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.THIRD, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.THIRD, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.FOURTH, StatField.SECOND);
-        pawnService.movePawn(pawn1, StatField.FOURTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.FOURTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.FOURTH, StatField.SECOND);
+        boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
-        rookService.moveRook(rook, StatField.SECOND, StatField.FIRST);
-        rookService.moveRook(rook, StatField.FIRST, StatField.FIRST);
+        boardManager.makeMove(rook, StatField.SECOND, StatField.FIRST);
+        boardManager.makeMove(rook, StatField.FIRST, StatField.FIRST);
 
-        boolean check = kingService.moveKing(king, StatField.FIRST, StatField.THIRD);
+        boolean check = boardManager.makeMove(king, StatField.FIRST, StatField.THIRD);
         assertFalse(check);
     }
 
@@ -414,7 +390,7 @@ public class KingServiceTest {
     @Test
     public void invalidMove12() {
         King king = boardManager.getPiece(StatField.EIGHTS, StatField.FIFTH);
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.THIRD);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.THIRD);
         assertFalse(check);
     }
 
@@ -428,14 +404,14 @@ public class KingServiceTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Rook rook = boardManager.getPiece(StatField.EIGHTS, StatField.FIRST);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.SIXTH, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SEVENTH, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.SIXTH, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SEVENTH, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        rookService.moveRook(rook, StatField.SEVENTH, StatField.FIRST);
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.THIRD);
+        boardManager.makeMove(rook, StatField.SEVENTH, StatField.FIRST);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.THIRD);
         assertFalse(check);
     }
 
@@ -449,16 +425,16 @@ public class KingServiceTest {
         Pawn pawn1 = boardManager.getPiece(StatField.SEVENTH, StatField.FIRST);
         Rook rook = boardManager.getPiece(StatField.EIGHTS, StatField.FIRST);
 
-        pawnService.movePawn(pawn, StatField.FIFTH, StatField.FOURTH);
-        bishopService.moveBishop(bishop, StatField.SIXTH, StatField.FIFTH);
-        knightService.moveKnight(knight, StatField.SIXTH, StatField.THIRD);
-        queenService.moveQueen(queen, StatField.SEVENTH, StatField.FOURTH);
-        pawnService.movePawn(pawn1, StatField.FIFTH, StatField.FIRST);
+        boardManager.makeMove(pawn, StatField.FIFTH, StatField.FOURTH);
+        boardManager.makeMove(bishop, StatField.SIXTH, StatField.FIFTH);
+       boardManager.makeMove(knight, StatField.SIXTH, StatField.THIRD);
+        boardManager.makeMove(queen, StatField.SEVENTH, StatField.FOURTH);
+        boardManager.makeMove(pawn1, StatField.FIFTH, StatField.FIRST);
 
-        rookService.moveRook(rook, StatField.SEVENTH, StatField.FIRST);
-        rookService.moveRook(rook, StatField.EIGHTS, StatField.FIRST);
+        boardManager.makeMove(rook, StatField.SEVENTH, StatField.FIRST);
+        boardManager.makeMove(rook, StatField.EIGHTS, StatField.FIRST);
 
-        boolean check = kingService.moveKing(king, StatField.EIGHTS, StatField.THIRD);
+        boolean check = boardManager.makeMove(king, StatField.EIGHTS, StatField.THIRD);
         assertFalse(check);
     }
 }

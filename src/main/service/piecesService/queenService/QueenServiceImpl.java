@@ -20,15 +20,6 @@ public class QueenServiceImpl implements QueenService {
     }
 
     @Override
-    public boolean moveQueen(Queen queen, int newRow, int newCol) {
-        if (bishopService.moveBishop(queen, newRow, newCol)
-                || rookService.moveRook(queen, newRow, newCol)) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean isValidMove(Queen queen, int newRow, int newCol) {
         if (bishopService.isValidMove(queen, newRow, newCol) || rookService.isValidMove(queen, newRow, newCol)) {
             return true;
