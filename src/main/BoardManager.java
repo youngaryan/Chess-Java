@@ -364,6 +364,9 @@ public class BoardManager {
         }
 
         public <T extends Piece> boolean isLegalMove(T piece, int newRow, int newCol) {
+                if (piece.getCurrentRow() == newRow && piece.getCurrentCol() == newCol) {
+                        return false;
+                }
                 movePieceilligal(piece, newRow, newCol);
 
                 if (isKingInCheckByColour(piece.isWhite()) > 0 || areKingsNextToEachOther()) {
@@ -480,7 +483,7 @@ public class BoardManager {
                 return false;
         }
 
-        public boolean isDraw(){
+        public boolean isDraw() {
                 return checkService.isDraw();
         }
 
