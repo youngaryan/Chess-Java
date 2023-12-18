@@ -12,6 +12,7 @@ import src.main.BoardManager;
 import src.main.entity.game.Move;
 import src.main.entity.pieces.King;
 import src.main.entity.pieces.Piece;
+import src.main.entity.pieces.Queen;
 import src.main.service.gameService.checkService.CheckService;
 import src.main.service.gameService.checkService.CheckServiceImpl;
 import src.main.stat.statVar.StatField;
@@ -94,5 +95,43 @@ public class CheckServiceTest {
     @Test
     public void isKingCheckMatebyColourTest() {
         assertFalse(checkService.isKingCheckMatebyColour(false));
+    }
+
+    @Test
+    public void isDraw() {
+        assertFalse(checkService.isDraw());
+    }
+
+    @Test
+    public void isDraw1() {
+        Piece[][] board = boardManager.getChessBoard();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = null;
+            }
+        }
+        board[StatField.FIRST][StatField.FIRST] = new King(true, StatField.FIRST, StatField.FIRST, true);
+        board[StatField.FIRST][StatField.FIFTH] = new King(false, StatField.FIRST, StatField.FIFTH, true);
+
+        assertTrue(checkService.isDraw());
+    }
+
+    @Test
+    public void isDraw2() {
+        Piece[][] board = boardManager.getChessBoard();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = null;
+            }
+        }
+
+       board[StatField.FIRST][StatField.FIRST] = new King(true, StatField.FIRST, StatField.FIRST, true);
+        board[StatField.FIRST][StatField.FIFTH] = new King(false, StatField.FIRST, StatField.FIFTH, true);
+
+        board[StatField.SECOND][StatField.THIRD] = new Queen(false, StatField.SECOND, StatField.THIRD);
+
+        assertTrue(checkService.isDraw());
     }
 }

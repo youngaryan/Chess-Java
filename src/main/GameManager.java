@@ -161,7 +161,8 @@ public class GameManager {
     }
 
     private boolean isGameOver() {
-        if (boardManager.isKingCheckMatebyColour(true) || boardManager.isKingCheckMatebyColour(false)) {
+        if (boardManager.isKingCheckMatebyColour(true) || boardManager.isKingCheckMatebyColour(false)
+                || boardManager.isDraw()) {
             return true;
         }
         return false;

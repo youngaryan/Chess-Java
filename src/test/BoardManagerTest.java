@@ -354,7 +354,7 @@ public class BoardManagerTest {
         boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
         boardManager.makeMove(pawn1, StatField.THIRD, StatField.FIRST);
 
-       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
         boardManager.makeMove(pawn2, StatField.SIXTH, StatField.SECOND);
 
         List<Move> moves = boardManager.findPossMovesByPices(king);
@@ -390,7 +390,7 @@ public class BoardManagerTest {
         boardManager.makeMove(bishop, StatField.THIRD, StatField.FIFTH);
         boardManager.makeMove(pawn1, StatField.THIRD, StatField.FIRST);
 
-       boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
+        boardManager.makeMove(knight, StatField.THIRD, StatField.THIRD);
         boardManager.makeMove(pawn2, StatField.SIXTH, StatField.SECOND);
 
         boardManager.makeMove(pawn3, StatField.THIRD, StatField.SEVENTH);
@@ -399,7 +399,7 @@ public class BoardManagerTest {
         boardManager.makeMove(bishop1, StatField.SECOND, StatField.SEVENTH);
         boardManager.makeMove(pawn2, StatField.FOURTH, StatField.SECOND);
 
-       boardManager.makeMove(knight2, StatField.THIRD, StatField.SIXTH);
+        boardManager.makeMove(knight2, StatField.THIRD, StatField.SIXTH);
         boardManager.makeMove(pawn2, StatField.THIRD, StatField.SECOND);
 
         List<Move> moves = boardManager.findPossMovesByPices(king);
@@ -423,7 +423,7 @@ public class BoardManagerTest {
         boardManager.makeMove(pawn1, StatField.FOURTH, StatField.FIRST);
 
         int check = boardManager.isKingInCheckByColour(false);
-        assertTrue(check==0);
+        assertTrue(check == 0);
 
     }
 
@@ -445,7 +445,7 @@ public class BoardManagerTest {
         boardManager.makeMove(queen, StatField.SEVENTH, StatField.FIFTH);
 
         int check = boardManager.isKingInCheckByColour(false);
-        assertTrue(check ==1);
+        assertTrue(check == 1);
 
     }
 
@@ -518,7 +518,25 @@ public class BoardManagerTest {
 
         board = boardManager.getChessBoard();
 
-        assertTrue(board[StatField.SIXTH][StatField.FOURTH] == null && board[StatField.SEVENTH][StatField.FOURTH] instanceof Pawn);
+        assertTrue(board[StatField.SIXTH][StatField.FOURTH] == null
+                && board[StatField.SEVENTH][StatField.FOURTH] instanceof Pawn);
 
+    }
+
+    @Test
+    public void kingNextToEachOther() {
+
+        Piece[][] board = boardManager.getChessBoard();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = null;
+            }
+        }
+        board[StatField.FIRST][StatField.THIRD] = new King(true, StatField.FIRST, StatField.THIRD, true);
+        board[StatField.FIRST][StatField.FIRST] = new King(false, StatField.FIRST, StatField.FIRST, true);
+
+        assertFalse(boardManager.isLegalMove(boardManager.getPiece(StatField.FIRST, StatField.THIRD), StatField.FIRST,
+                StatField.SECOND));
     }
 }

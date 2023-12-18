@@ -22,4 +22,6 @@ public interface CheckService {
 
     List<int[]> findCheckPath(Move chekMove);
 
+    boolean isDraw();
+
 }

@@ -366,7 +366,7 @@ public class BoardManager {
         public <T extends Piece> boolean isLegalMove(T piece, int newRow, int newCol) {
                 movePieceilligal(piece, newRow, newCol);
 
-                if (isKingInCheckByColour(piece.isWhite()) > 0) {
+                if (isKingInCheckByColour(piece.isWhite()) > 0 || areKingsNextToEachOther()) {
                         undoMove();
                         return false;
                 }
@@ -421,12 +421,10 @@ public class BoardManager {
                         if (newCol > piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2) {
                                 Rook rook = getPiece(piece.getCurrentRow(), newCol + 1);
 
-                               
                                 makeMove(rook, piece.getCurrentRow(), newCol - 1);
                         } else if (newCol < piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2) {
                                 Rook rook = getPiece(newRow, newCol - 2);
 
-                                
                                 makeMove(rook, newRow, newCol + 1);
                         }
 
@@ -465,6 +463,25 @@ public class BoardManager {
                         }
                 }
                 return false;
+        }
+
+        public Piece findKingByColour(boolean isWhite) {
+                return checkService.findKingByColour(isWhite);
+        }
+
+        private boolean areKingsNextToEachOther() {
+                King whiteKing = (King) findKingByColour(true);
+                King blackKing = (King) findKingByColour(false);
+
+                if (Math.abs(whiteKing.getCurrentRow() - blackKing.getCurrentRow()) == 1
+                                && Math.abs(whiteKing.getCurrentCol() - blackKing.getCurrentCol()) == 1) {
+                        return true;
+                }
+                return false;
+        }
+
+        public boolean isDraw(){
+                return checkService.isDraw();
         }
 
 }
