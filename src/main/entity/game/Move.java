@@ -86,7 +86,7 @@ public class Move {
         return "Move [moveNumber=" + moveNumber + ", piece=" + piece.getClass().getSimpleName() + ", startRow="
                 + (startRow+1) + ", startCol="
                 + (startCol+1) + ", endRow=" + (endRow+1) + ", endCol=" + (endCol+1) + ", player=" + (player == 0 ? "White" : "Black") + ", capturedPiece="
-                + capturedPiece.getClass().getSimpleName() + "]";
+                + (capturedPiece == null ? "No Cpature" : capturedPiece.getClass().getSimpleName()) + "]";
     }
 
     public Piece getCapturedPiece() {
