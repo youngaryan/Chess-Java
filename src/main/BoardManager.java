@@ -56,7 +56,6 @@ public class BoardManager {
                 moveService = new MoveServiceImpl();
                 checkService = new CheckServiceImpl(boardManager);
                 pawnService = new PawnServiceImpl(boardManager);
-
         }
 
         public <T extends Piece> T getPiece(int row, int col) {
@@ -208,6 +207,8 @@ public class BoardManager {
                 chessBoard[newRow][newCol] = piece;
 
                 moveService.addMove(move);
+              
+
                 piece.setCurrentRow(newRow);
                 piece.setCurrentCol(newCol);
 
@@ -421,11 +422,13 @@ public class BoardManager {
                         piece.setHasMoved(true);
                         return true;
                 } else if (piece instanceof King && kingService.isValidMove((King) piece, newRow, newCol)) {
-                        if (newCol > piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2) {
+                        if (newCol > piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2
+                                        && isKingInCheckByColour(piece.isWhite()) == 0) {
                                 Rook rook = getPiece(piece.getCurrentRow(), newCol + 1);
 
                                 makeMove(rook, piece.getCurrentRow(), newCol - 1);
-                        } else if (newCol < piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2) {
+                        } else if (newCol < piece.getCurrentCol() && Math.abs(piece.getCurrentCol() - newCol) == 2
+                                        && isKingInCheckByColour(piece.isWhite()) == 0) {
                                 Rook rook = getPiece(newRow, newCol - 2);
 
                                 makeMove(rook, newRow, newCol + 1);
@@ -486,5 +489,6 @@ public class BoardManager {
         public boolean isDraw() {
                 return checkService.isDraw();
         }
+
 
 }

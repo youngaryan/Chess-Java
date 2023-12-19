@@ -1,5 +1,7 @@
 package src.main.entity.game;
 
+import java.util.Objects;
+
 import src.main.entity.pieces.Piece;
 
 public class Move {
@@ -84,8 +86,9 @@ public class Move {
     @Override
     public String toString() {
         return "Move [moveNumber=" + moveNumber + ", piece=" + piece.getClass().getSimpleName() + ", startRow="
-                + (startRow+1) + ", startCol="
-                + (startCol+1) + ", endRow=" + (endRow+1) + ", endCol=" + (endCol+1) + ", player=" + (player == 0 ? "White" : "Black") + ", capturedPiece="
+                + (startRow + 1) + ", startCol="
+                + (startCol + 1) + ", endRow=" + (endRow + 1) + ", endCol=" + (endCol + 1) + ", player="
+                + (player == 0 ? "White" : "Black") + ", capturedPiece="
                 + (capturedPiece == null ? "No Cpature" : capturedPiece.getClass().getSimpleName()) + "]";
     }
 
@@ -95,6 +98,24 @@ public class Move {
 
     public void setCapturedPiece(Piece capturedPiece) {
         this.capturedPiece = capturedPiece;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Move otherMove = (Move) obj;
+
+        return Objects.equals(this.piece, otherMove.piece) &&
+                this.startRow == otherMove.startRow &&
+                this.startCol == otherMove.startCol &&
+                this.endRow == otherMove.endRow &&
+                this.endCol == otherMove.endCol;
     }
 
 }

@@ -26,6 +26,9 @@ public class GameManager {
     public void playGame() {
         while (!isGameOver()) {
             printBoard();
+            if (boardManager.isKingCheckMatebyColour(!whiteTurn)) {
+                System.out.println(!whiteTurn?"White" :"Black" + " King is in check!");
+            }
 
             int startRow, startCol, endRow, endCol;
             Piece piece;
@@ -84,7 +87,7 @@ public class GameManager {
                 }
             } else {
 
-                if (!boardManager.isLegalMove(piece, endRow, endCol)) {
+                if (!boardManager.isLegalMove(piece, endRow, endCol) || !boardManager.makeMove(piece, endRow, endCol)) {
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
@@ -111,22 +114,25 @@ public class GameManager {
     }
 
     private boolean isValid(int startRow, int startCol, int endRow, int endCol, boolean whiteTurn) {
-        if (InputChecker.newGriddimentionChecker(endRow, endCol)
-                && InputChecker.newGriddimentionChecker(startRow, startCol)
-                && boardManager.getPiece(startRow, startCol).isWhite() == whiteTurn) {
-            return true;
+        if (!InputChecker.newGriddimentionChecker(endRow, endCol)
+                || !InputChecker.newGriddimentionChecker(startRow, startCol)
+                || null == boardManager.getPiece(startRow, startCol)
+                || !boardManager.getPiece(startRow, startCol).isWhite() == whiteTurn) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            System.out.println("Illigal");
+
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            printBoard();
+
+            return false;
         }
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-        System.out.println("Illigal");
-
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        printBoard();
-        return false;
+        return true;
     }
 
     private void printGameResult() {
@@ -134,7 +140,7 @@ public class GameManager {
             System.out.println("Black Won!");
         } else if (boardManager.isKingCheckMatebyColour(false)) {
             System.out.println("White won!");
-        }else{
+        } else {
             System.out.println("Draw");
         }
     }

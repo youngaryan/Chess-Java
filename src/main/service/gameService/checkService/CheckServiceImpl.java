@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import src.main.BoardManager;
 import src.main.entity.game.Move;
 import src.main.entity.pieces.King;
+import src.main.entity.pieces.Pawn;
 import src.main.entity.pieces.Piece;
 
 public class CheckServiceImpl implements CheckService {
@@ -159,10 +160,10 @@ public class CheckServiceImpl implements CheckService {
         King kingBlack = findKingByColour(false);
 
         List<Move> posMoveByWhite = findPossMovesByColour(true).stream()
-                .flatMap(List::stream) 
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
-       
-                List<Move> posMoveByBlack = findPossMovesByColour(false).stream()
+
+        List<Move> posMoveByBlack = findPossMovesByColour(false).stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
@@ -185,7 +186,23 @@ public class CheckServiceImpl implements CheckService {
                 || (isKingInCheckByColour(false) == 0 && possKingBlackMove == 0)) {
             return true;
         }
-        return false;
+
+
+        // 50 moves
+        List<Move> allMoves = boardManager.findAllMoves();
+        int count = 0;
+        for (int i = allMoves.size() - 1; i >= 0 && i >= allMoves.size() - 50; i--) {
+            Move currentMove = allMoves.get(i);
+
+            // Check for pawn move or capture
+            if (currentMove.getPiece() instanceof Pawn || currentMove.getCapturedPiece() != null) {
+                break;
+            }
+
+            count++;
+        }
+        return count == 50;
+
     }
 
 }

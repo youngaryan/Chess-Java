@@ -127,7 +127,7 @@ public class CheckServiceTest {
             }
         }
 
-       board[StatField.FIRST][StatField.FIRST] = new King(true, StatField.FIRST, StatField.FIRST, true);
+        board[StatField.FIRST][StatField.FIRST] = new King(true, StatField.FIRST, StatField.FIRST, true);
         board[StatField.FIRST][StatField.FIFTH] = new King(false, StatField.FIRST, StatField.FIFTH, true);
 
         board[StatField.SECOND][StatField.THIRD] = new Queen(false, StatField.SECOND, StatField.THIRD);
