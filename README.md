@@ -13,12 +13,13 @@ which you want to move the piece to.
 
 if your provided move is ligal it would print the new board other wise the same board and promts you for new input.
 
-the system will end once one side is checkmated or the position is draw (setelmate or twos king are left).
+the system will end once one side is checkmated or the position is draw (setelmate or two king are left).
 
 once the system end upon request it can provide the list of all moves that have been played.
 
 
 ![291318159-65f8ff2a-272f-4c95-babc-ae1f6c465154](https://github.com/youngaryan/Chess-Java/assets/121689731/712e7c31-d4bf-4886-9c22-a05322439d8b)
+
 
 ## Installation
 
