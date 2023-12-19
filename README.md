@@ -20,8 +20,6 @@ once the system end upon request it can provide the list of all moves that have 
 
 ![291318159-65f8ff2a-272f-4c95-babc-ae1f6c465154](https://github.com/youngaryan/Chess-Java/assets/121689731/712e7c31-d4bf-4886-9c22-a05322439d8b)
 
-![image](https://github.com/youngaryan/Chess-Java/assets/121689731/29312670-e7a0-4e85-997d-13ce79dc9085)
-
 
 ## Installation
 
